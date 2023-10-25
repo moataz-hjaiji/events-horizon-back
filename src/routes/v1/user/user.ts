@@ -13,27 +13,35 @@ import { mediaFodlerNameSchemaAndObjectId } from '../global.routes.schema';
 const router = express.Router();
 const fileUploadHandler = new FileUploadHandler();
 
-router.use('/', authentication, authorization([RoleCode.ADMIN, RoleCode.DEVELOPER]));
+router.use('/', authentication, authorization([RoleCode.ADMIN]));
 
 router.get('/all', userController.getAllUsers);
 router.get('/all/non-admins', userController.getAllNonAdmins);
 router.get('/all/count', userController.countAllUsers);
-router.get('/:id', validator(schema.userId, ValidationSource.PARAM), userController.getUser);
+router.get(
+  '/:id',
+  validator(schema.userId, ValidationSource.PARAM),
+  userController.getUser
+);
 router.put(
   '/:id',
   uploadMediaFilesToThisFolder('users'),
   fileUploadHandler.handleMultipleFileUpload(['profilePicUrl', 'brandPicUrl']),
   validator(mediaFodlerNameSchemaAndObjectId, ValidationSource.PARAM),
   validator(schema.update),
-  userController.updateUser,
+  userController.updateUser
 );
 router.post(
   '/create',
   uploadMediaFilesToThisFolder('users'),
   fileUploadHandler.handleMultipleFileUpload(['profilePicUrl', 'brandPicUrl']),
   validator(schema.create),
-  userController.createUser,
+  userController.createUser
 );
 
-router.delete('/:id', validator(schema.userId, ValidationSource.PARAM), userController.deleteUser);
+router.delete(
+  '/:id',
+  validator(schema.userId, ValidationSource.PARAM),
+  userController.deleteUser
+);
 export default router;

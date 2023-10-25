@@ -5,7 +5,6 @@ const findByObj = (obj: object): Promise<User | null> => {
     .select('+roles +email')
     .populate({
       path: 'roles',
-      match: { status: true },
       select: { code: 1 },
     })
     .lean<User>()

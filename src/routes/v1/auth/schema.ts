@@ -3,7 +3,8 @@ import { JoiAuthBearer } from '../../../helpers/validator';
 
 export default {
   userLogin: Joi.object().keys({
-    email: Joi.string().required().email(),
+    email: Joi.string().email(),
+    userName: Joi.string().email(),
     password: Joi.string().required().min(6),
   }),
 
@@ -17,14 +18,13 @@ export default {
     })
     .unknown(true),
   signup: Joi.object().keys({
-    name: Joi.string().required().min(3),
-    lastname: Joi.string().optional().min(3),
+    firstName: Joi.string().required().min(3),
+    lastName: Joi.string().optional().min(3),
+    userName: Joi.string().optional().min(3),
     email: Joi.string().required().email(),
-    phoneNumber: Joi.string().optional().min(10),
+    phoneNumber: Joi.string().optional().min(8),
     password: Joi.string()
       .required()
       .regex(/^[a-zA-Z0-9]{8,30}$/),
-    profilePicUrl: Joi.string().optional().uri(),
-    brandPicUrl: Joi.string().optional().uri(),
   }),
 };

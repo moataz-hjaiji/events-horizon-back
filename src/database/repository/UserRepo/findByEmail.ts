@@ -1,11 +1,10 @@
 import User, { UserModel } from '../../model/User';
 
 const findByEmail = (email: string): Promise<User | null> => {
-  return UserModel.findOne({ email: email, status: true })
+  return UserModel.findOne({ email: email })
     .select('+email +password +roles +verified -status')
     .populate({
       path: 'roles',
-      match: { status: true },
       select: { code: 1 },
     })
     .lean<User>()

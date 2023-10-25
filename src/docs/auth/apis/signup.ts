@@ -2,8 +2,8 @@
  * @swagger
  * /auth/signup:
  *   post:
- *     tags: [Access]
- *     summary: Register
+ *     tags: [Authentication]
+ *     summary: Register user
  *     requestBody:
  *        required: true
  *        content:

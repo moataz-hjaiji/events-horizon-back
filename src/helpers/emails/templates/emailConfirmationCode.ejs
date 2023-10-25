@@ -1,4 +1,11 @@
-<div style="font-family: Arial, sans-serif; padding: 30px; max-width: 600px; margin: 0 auto">
+<div
+  style="
+    font-family: Arial, sans-serif;
+    padding: 30px;
+    max-width: 600px;
+    margin: 0 auto;
+  "
+>
   <div style="text-align: center; margin-bottom: 20px">
     <h2 style="margin: 0">Confirmez votre compte</h2>
   </div>
@@ -6,24 +13,25 @@
   <div style="background-color: #f7f7f7; padding: 20px; border-radius: 5px">
     <p style="margin: 0">Dear <b style="color: #333"><%= name %></b>,</p>
     <p style="margin: 0; margin-top: 10px">
-      Merci d'avoir créé un compte chez nous. Pour terminer le processus d'inscription, nous avons
-      besoin de vous pour confirmer votre compte à l'aide du code de vérification fourni dans cet
-      e-mail.
+      Merci d'avoir créé un compte chez nous. Pour terminer le processus
+      d'inscription, nous avons besoin de vous pour confirmer votre compte à
+      l'aide du code de vérification fourni dans cet e-mail.
     </p>
     <p style="margin: 0; margin-top: 10px">Le code de vérification:</p>
     <p
-      style="margin: 0; margin-top: 10px; word-wrap: break-word; font-size: 18px; font-weight: bold"
+      style="
+        margin: 0;
+        margin-top: 10px;
+        word-wrap: break-word;
+        font-size: 18px;
+        font-weight: bold;
+      "
     >
       <%= variable.verificationCode %>
     </p>
     <p style="margin: 0; margin-top: 10px">
       Merci pour votre temps, et nous espérons vous voir bientôt!
     </p>
-  </div>
-
-  <div style="text-align: center; margin-top: 20px">
-    <p style="margin: 0">Cordialement,</p>
-    <p style="margin: 0">Momenzo</p>
   </div>
 </div>
 

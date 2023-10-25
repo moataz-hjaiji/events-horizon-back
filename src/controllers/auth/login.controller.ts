@@ -12,7 +12,6 @@ import { generateKeys } from '../../helpers/auth';
 
 export const login = asyncHandler(async (req: Request, res: Response) => {
   let user = await UserRepo.findByEmail(req.body.email);
-
   if (!user) throw new BadRequestError('User not registered');
   if (!user.password) throw new BadRequestError('Credential not set');
   if (!user.verified) throw new BadRequestError('User not verified');
@@ -21,12 +20,19 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
   if (!match) throw new AuthFailureError('Authentication failure');
 
   const { accessTokenKey, refreshTokenKey } = generateKeys();
-
   await KeystoreRepo.create(user._id, accessTokenKey, refreshTokenKey);
   const [tokens, filteredUser] = await Promise.all([
     createTokens(user, accessTokenKey, refreshTokenKey),
-    _.pick(user, ['_id', 'name', 'email', 'roles', 'profilePicUrl', 'verified', 'createdAt']),
+    _.pick(user, [
+      '_id',
+      'email',
+      'roles',
+      'profilePicUrl',
+      'verified',
+      'createdAt',
+    ]),
   ]);
+
   new SuccessResponse('Login Success', {
     user: filteredUser,
     tokens: tokens,

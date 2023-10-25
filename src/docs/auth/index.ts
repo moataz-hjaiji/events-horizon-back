@@ -1,6 +1,6 @@
 /**
  * @swagger
  * tags:
- *   name: Access
+ *   name: Authentication
  *   description: The Access managing API
  */

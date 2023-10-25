@@ -7,7 +7,8 @@ import { tokenInfo } from '../config/envVar';
 
 export const getAccessToken = (authorization?: string) => {
   if (!authorization) throw new AuthFailureError('Invalid Authorization');
-  if (!authorization.startsWith('Bearer ')) throw new AuthFailureError('Invalid Authorization');
+  if (!authorization.startsWith('Bearer '))
+    throw new AuthFailureError('Invalid Authorization');
   return authorization.split(' ')[1];
 };
 
@@ -29,7 +30,7 @@ export const validateTokenData = (payload: JwtPayload): boolean => {
 export const createTokens = async (
   user: User,
   accessTokenKey: string,
-  refreshTokenKey: string,
+  refreshTokenKey: string
 ): Promise<Tokens> => {
   const accessToken = await JWT.encode(
     new JwtPayload(
@@ -37,8 +38,8 @@ export const createTokens = async (
       tokenInfo.audience,
       user._id.toString(),
       accessTokenKey,
-      tokenInfo.accessTokenValidityDays,
-    ),
+      tokenInfo.accessTokenValidityDays
+    )
   );
   if (!accessToken) throw new InternalError();
 
@@ -48,8 +49,8 @@ export const createTokens = async (
       tokenInfo.audience,
       user._id.toString(),
       refreshTokenKey,
-      tokenInfo.refreshTokenValidityDays,
-    ),
+      tokenInfo.refreshTokenValidityDays
+    )
   );
 
   if (!refreshToken) throw new InternalError();

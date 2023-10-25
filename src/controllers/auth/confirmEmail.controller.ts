@@ -2,10 +2,7 @@ import { ProtectedRequest, RoleRequest } from 'app-request';
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import crypto from 'crypto';
-
 import { SuccessResponse } from '../../core/ApiResponse';
-import User from '../../database/model/User';
-import { RoleCode } from '../../database/model/Role';
 import UserRepo from '../../database/repository/UserRepo';
 import { BadRequestError } from '../../core/ApiError';
 import { createTokens } from '../../auth/authUtils';
@@ -20,11 +17,14 @@ export const confirmEmail = asyncHandler(async (req: ProtectedRequest, res) => {
 
   user.token = null;
   user.verified = true;
-  user.status = true;
 
   const accessTokenKey = crypto.randomBytes(64).toString('hex');
   const refreshTokenKey = crypto.randomBytes(64).toString('hex');
-  const keystore = await KeystoreRepo.create(user._id, accessTokenKey, refreshTokenKey);
+  const keystore = await KeystoreRepo.create(
+    user._id,
+    accessTokenKey,
+    refreshTokenKey
+  );
   await UserRepo.update(user, keystore?.primaryKey, keystore?.secondaryKey);
   const tokens = await createTokens(user, accessTokenKey, refreshTokenKey);
 

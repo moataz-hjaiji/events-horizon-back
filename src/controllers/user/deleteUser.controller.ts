@@ -12,7 +12,6 @@ export const deleteUser = asyncHandler(async (req: ProtectedRequest, res) => {
   const userId = new Types.ObjectId(req.params.id);
   const user = await UserRepo.findByObj({
     _id: userId,
-    status: true,
     deletedAt: null,
   });
 

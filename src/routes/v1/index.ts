@@ -4,6 +4,7 @@ import profile from './user/profile';
 import users from './user/user';
 import media from './media/media';
 import email from './email/email';
+import userType from './userType/userType';
 
 const router = express.Router();
 
@@ -15,5 +16,6 @@ router.use('/auth', auth);
 router.use('/profile', profile);
 router.use('/users', users);
 router.use('/email', email);
+router.use('/usertypes', userType);
 
 export default router;
