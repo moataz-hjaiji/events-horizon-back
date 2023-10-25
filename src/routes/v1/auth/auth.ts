@@ -14,6 +14,11 @@ router.get(
   validator(tokenSchema, ValidationSource.PARAM),
   auth.confirmEmail
 );
+router.post(
+  '/forget-password',
+  validator(schema.forgetPassword),
+  auth.forgetPassword
+);
 
 router.use('/', authentication);
 

@@ -1,5 +1,6 @@
 import { model, Schema, Document } from 'mongoose';
 import { mongoosePagination, Pagination } from 'mongoose-paginate-ts';
+import { preFindHook } from '../../helpers/databaseHooks';
 
 export const DOCUMENT_NAME = 'UserType';
 export const COLLECTION_NAME = 'userTypes';
@@ -25,7 +26,8 @@ const schema = new Schema<IUserType>(
     },
     deletedAt: {
       type: Date,
-      select: true,
+      default: null,
+      select: false,
     },
   },
   {
@@ -33,7 +35,7 @@ const schema = new Schema<IUserType>(
     versionKey: false,
   }
 );
-
+preFindHook(schema);
 schema.plugin(mongoosePagination);
 
 export const UserTypeModel = model<IUserType, Pagination<IUserType>>(

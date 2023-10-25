@@ -2,6 +2,7 @@ import { model, Schema, Document } from 'mongoose';
 import Role from './Role';
 import { mongoosePagination, Pagination } from 'mongoose-paginate-ts';
 import bcrypt from 'bcryptjs';
+import { preFindHook } from '../../helpers/databaseHooks';
 
 export const DOCUMENT_NAME = 'User';
 export const COLLECTION_NAME = 'users';
@@ -17,8 +18,7 @@ export default interface IUser extends Document {
   verified: boolean;
   roles?: Role[];
   token: string | null;
-  createdAt?: Date;
-  updatedAt?: Date;
+  resetCode: string | null;
   deletedAt?: Date;
 }
 
@@ -71,9 +71,14 @@ const schema = new Schema<IUser>(
       type: Schema.Types.String,
       nullable: true,
     },
+    resetCode: {
+      type: Schema.Types.String,
+      nullable: true,
+    },
     deletedAt: {
       type: Date,
-      select: true,
+      default: null,
+      select: false,
     },
   },
   {
@@ -81,7 +86,7 @@ const schema = new Schema<IUser>(
     versionKey: false,
   }
 );
-
+preFindHook(schema);
 schema.plugin(mongoosePagination);
 schema.pre('save', async function (this: IUser, next) {
   if (this.isModified('email')) this.email = this.email?.toLocaleLowerCase();

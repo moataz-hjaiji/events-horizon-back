@@ -12,7 +12,6 @@ const create = async (
   if (!role) throw new InternalError('Role must be defined');
   user.roles = [role._id];
   user.verified = verified ? true : false;
-  user.createdAt = user.updatedAt = now;
   const createdUser = (await UserModel.create(user)).populate({
     path: 'roles',
     select: { code: 1 },

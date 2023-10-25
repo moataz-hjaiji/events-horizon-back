@@ -35,7 +35,7 @@ export const updateUser = asyncHandler(async (req: ProtectedRequest, res) => {
   if (profilePicUrl) user.profilePicUrl = profilePicUrl;
   // if (brandPicUrl) user.brandPicUrl = brandPicUrl;
 
-  const { updatedAt, createdAt, roles, ...userToUpdate } = user;
+  const { roles, ...userToUpdate } = user;
 
   await UserRepo.updateInfo(userToUpdate as User);
   return new SuccessResponse('Profile updated', user).send(res);
