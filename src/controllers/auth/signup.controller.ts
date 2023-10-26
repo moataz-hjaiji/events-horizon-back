@@ -2,7 +2,7 @@ import { RoleRequest } from 'app-request';
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { SuccessResponse } from '../../core/ApiResponse';
-import User from '../../database/model/User';
+import IUser from '../../database/model/User';
 import { RoleCode } from '../../database/model/Role';
 import UserRepo from '../../database/repository/UserRepo';
 import { BadRequestError } from '../../core/ApiError';
@@ -10,20 +10,23 @@ import asyncHandler from '../../helpers/asyncHandler';
 import { sendEmail } from '../../helpers/emails';
 
 export const signup = asyncHandler(async (req: RoleRequest, res) => {
-  const { name, email, password } = req.body;
-  let profilePicUrl = (req.files as any)?.profilePicUrl
-    ? (req.files as any)?.profilePicUrl[0].path
-    : '';
-  let brandPicUrl = (req.files as any)?.brandPicUrl ? (req.files as any).brandPicUrl[0].path : '';
-
+  const { firstName, lastName, phoneNumber, email, password } = req.body;
   let user = await UserRepo.findByEmail(email);
   if (user) throw new BadRequestError('User already registered');
 
   const confirmationToken = uuidv4();
   const confirmationLink = `${process.env.CLIENT_BASE_URL}/email/confirm/${confirmationToken}`;
   const createdUser = await UserRepo.create(
-    { name, email, password, profilePicUrl, brandPicUrl, token: confirmationToken } as User,
-    RoleCode.USER,
+    {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      password,
+      token: confirmationToken,
+      verified: false,
+    } as IUser,
+    RoleCode.USER
   );
 
   sendEmail({
@@ -32,7 +35,7 @@ export const signup = asyncHandler(async (req: RoleRequest, res) => {
     message: '',
     template: 'emailConfirmationLink',
     variables: {
-      name: createdUser.name,
+      name: createdUser.firstName,
       confirmationLink,
     },
   });

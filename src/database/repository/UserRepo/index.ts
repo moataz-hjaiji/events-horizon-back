@@ -9,6 +9,7 @@ import findByObj from './findbyObj';
 import findProfileById from './findProfileById';
 import countAll from './countAll';
 import getAllNonAdmins from './getAllNonAdmins';
+import updateSimple from './updateSimple';
 
 export default {
   create,
@@ -22,4 +23,5 @@ export default {
   findProfileById,
   countAll,
   getAllNonAdmins,
+  updateSimple,
 };

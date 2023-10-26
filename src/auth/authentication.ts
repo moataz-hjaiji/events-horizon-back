@@ -1,7 +1,11 @@
 import express from 'express';
 import { ProtectedRequest } from 'app-request';
 import UserRepo from '../database/repository/UserRepo';
-import { AuthFailureError, AccessTokenError, TokenExpiredError } from '../core/ApiError';
+import {
+  AuthFailureError,
+  AccessTokenError,
+  TokenExpiredError,
+} from '../core/ApiError';
 import JWT from '../core/JWT';
 import KeystoreRepo from '../database/repository/KeystoreRepo';
 import { Types } from 'mongoose';
@@ -22,6 +26,7 @@ export default router.use(
       validateTokenData(payload);
 
       const user = await UserRepo.findById(new Types.ObjectId(payload.sub));
+
       if (!user) throw new AuthFailureError('User not registered');
       req.user = user;
 
@@ -34,5 +39,5 @@ export default router.use(
       if (e instanceof TokenExpiredError) throw new AccessTokenError(e.message);
       throw e;
     }
-  }),
+  })
 );

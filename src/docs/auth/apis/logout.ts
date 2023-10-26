@@ -3,7 +3,7 @@
  * /auth/logout:
  *   delete:
  *     summary: Logout
- *     tags: [Access]
+ *     tags: [Authentication]
  *     responses:
  *       200:
  *         content:

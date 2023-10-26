@@ -8,13 +8,18 @@ import '../../database';
 
 export let seed = async (args = { clearDatabase: false }) => {
   if (args.clearDatabase) await seedDelete();
-  await seedRoles([RoleCode.ADMIN, RoleCode.USER, RoleCode.DEVELOPER]);
-  await seedUser(RoleCode.ADMIN, seeder.adminEmail, seeder.adminName, seeder.adminPass);
+  await seedRoles([RoleCode.ADMIN, RoleCode.USER, RoleCode.SUPER_ADMIN]);
   await seedUser(
-    RoleCode.DEVELOPER,
+    RoleCode.ADMIN,
+    seeder.adminEmail,
+    seeder.adminName,
+    seeder.adminPass
+  );
+  await seedUser(
+    RoleCode.SUPER_ADMIN,
     seeder.developerEmail,
     seeder.developerName,
-    seeder.developerPass,
+    seeder.developerPass
   );
   environment !== 'test' && process.exit(1);
 };

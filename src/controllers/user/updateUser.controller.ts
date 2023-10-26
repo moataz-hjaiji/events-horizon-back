@@ -13,27 +13,29 @@ export const updateUser = asyncHandler(async (req: ProtectedRequest, res) => {
 
   const user = await UserRepo.findByObj({
     _id: userId,
-    status: true,
     deletedAt: null,
   });
   if (!user) throw new BadRequestError('User not registered or deleted');
-  if (user === req.user) throw new BadRequestError('You cannot update yourself');
+  if (user === req.user)
+    throw new BadRequestError('You cannot update yourself');
 
-  if (req.body.name) user.name = req.body.name;
+  // if (req.body.name) user.name = req.body.name;
   if (req.body.roles) user.roles = req.body.roles;
   if (req.body.email) user.email = req.body.email;
   if (req.body.phoneNumber) user.phoneNumber = req.body.phoneNumber;
-  if (req.body.lastname) user.lastname = req.body.lastname;
+  // if (req.body.lastname) user.lastname = req.body.lastname;
 
   const profilePicUrl = (req.files as any)?.profilePicUrl
     ? (req.files as any).profilePicUrl[0].path
     : '';
-  const brandPicUrl = (req.files as any)?.brandPicUrl ? (req.files as any).brandPicUrl[0].path : '';
+  const brandPicUrl = (req.files as any)?.brandPicUrl
+    ? (req.files as any).brandPicUrl[0].path
+    : '';
 
   if (profilePicUrl) user.profilePicUrl = profilePicUrl;
-  if (brandPicUrl) user.brandPicUrl = brandPicUrl;
+  // if (brandPicUrl) user.brandPicUrl = brandPicUrl;
 
-  const { updatedAt, createdAt, status, roles, ...userToUpdate } = user;
+  const { roles, ...userToUpdate } = user;
 
   await UserRepo.updateInfo(userToUpdate as User);
   return new SuccessResponse('Profile updated', user).send(res);

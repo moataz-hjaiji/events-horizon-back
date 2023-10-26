@@ -10,12 +10,15 @@ export const seedUser = async (
   roleCode: RoleCode,
   email: string,
   name: string,
-  password: string,
+  password: string
 ) => {
   let roleAdmin = await RoleModel.findOne({ code: roleCode });
 
   if (roleAdmin) {
-    let user = await UserModel.find({ roles: roleAdmin._id, deletedAt: null }).countDocuments();
+    let user = await UserModel.find({
+      roles: roleAdmin._id,
+      deletedAt: null,
+    }).countDocuments();
 
     if (user > 0) {
       console.log(`${roleCode} user exist`);
@@ -24,7 +27,6 @@ export const seedUser = async (
         let user = {
           roles: [roleAdmin],
           verified: true,
-          status: true,
           name,
           email,
           password,

@@ -5,7 +5,10 @@ import role from '../../../helpers/role';
 import _ from 'lodash';
 import authentication from '../../../auth/authentication';
 import authorization from '../../../auth/authorization';
-import { getMyProfile, updateProfile } from '../../../controllers/profileController';
+import {
+  getMyProfile,
+  updateProfile,
+} from '../../../controllers/profileController';
 import { RoleCode } from '../../../database/model/Role';
 
 const router = express.Router();
@@ -19,6 +22,6 @@ router.get('/my', getMyProfile);
 
 router.put('/', validator(schema.profile), updateProfile);
 
-router.use('/', authorization([RoleCode.ADMIN, RoleCode.DEVELOPER]));
+router.use('/', authorization([RoleCode.ADMIN]));
 
 export default router;

@@ -3,6 +3,8 @@ import { signup } from './signup.controller';
 import { refreshToken } from './refreshToken.controller';
 import { logout } from './logout.controller';
 import { confirmEmail } from './confirmEmail.controller';
+import { forgetPassword } from './forgetPassword';
+import { resetPassword } from './resetPassword';
 
 export default {
   confirmEmail,
@@ -10,4 +12,6 @@ export default {
   signup,
   refreshToken,
   logout,
+  forgetPassword,
+  resetPassword,
 };

@@ -4,15 +4,13 @@ import User from '../../model/User';
 const find = async (
   client: User,
   primaryKey: string,
-  secondaryKey: string,
+  secondaryKey: string
 ): Promise<Keystore | null> => {
   return KeystoreModel.findOne({
     client: client,
     primaryKey: primaryKey,
     secondaryKey: secondaryKey,
-  })
-    .lean<Keystore>()
-    .exec();
+  }).exec();
 };
 
 export default find;

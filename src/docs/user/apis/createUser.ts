@@ -26,7 +26,7 @@
  *                type: object
  *                properties:
  *                  user:
- *                    $ref: '#/components/schemas/User'
+ *                    $ref: '#/components/schemas/GetUser'
  *        400:
  *          description: 	Validation Failed
  *        401:

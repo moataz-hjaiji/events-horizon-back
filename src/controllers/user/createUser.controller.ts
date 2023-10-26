@@ -5,26 +5,37 @@ import _ from 'lodash';
 
 import UserRepo from '../../database/repository/UserRepo';
 import { SuccessResponse } from '../../core/ApiResponse';
-import User from '../../database/model/User';
+import IUser from '../../database/model/User';
 
 export const createUser = asyncHandler(async (req: ProtectedRequest, res) => {
-  const { name, email, password, roles, verified, phoneNumber, lastname } = req.body;
-  const profilePicUrl = (req.files as any)?.profilePicUrl
-    ? (req.files as any).profilePicUrl[0].path
-    : '';
-  const brandPicUrl = (req.files as any)?.brandPicUrl ? (req.files as any).brandPicUrl[0].path : '';
-
+  const { firstName, email, password, roles, verified, phoneNumber, lastName } =
+    req.body;
   let user = await UserRepo.findByEmail(email);
   if (user) throw new BadRequestError('User already registered');
 
   const createdUser = await UserRepo.create(
-    { name, email, password, profilePicUrl, brandPicUrl, phoneNumber, lastname } as User,
+    {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      password,
+      verified: false,
+    } as IUser,
     roles,
-    verified,
+    verified
   );
 
   new SuccessResponse(
     'User has been created successfully!',
-    _.pick(createdUser, ['_id', 'name', 'email', 'roles', 'profilePicUrl', 'verified', 'lastname']),
+    _.pick(createdUser, [
+      '_id',
+      'name',
+      'email',
+      'roles',
+      'profilePicUrl',
+      'verified',
+      'lastname',
+    ])
   ).send(res);
 });

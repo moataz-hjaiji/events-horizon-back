@@ -9,7 +9,7 @@
  *            application/json:
  *                schema:
  *                   $ref: '#/components/schemas/Login'
- *     tags: [Access]
+ *     tags: [Authentication]
  *     responses:
  *       200:
  *         description: Login

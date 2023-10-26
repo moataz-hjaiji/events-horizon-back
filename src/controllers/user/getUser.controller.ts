@@ -11,7 +11,6 @@ export const getUser = asyncHandler(async (req: ProtectedRequest, res) => {
   const userId = new Types.ObjectId(req.params.id);
   const user = await UserRepo.findByObj({
     _id: userId,
-    status: true,
     deletedAt: null,
   });
   if (!user) throw new BadRequestError('User not registered or deleted');

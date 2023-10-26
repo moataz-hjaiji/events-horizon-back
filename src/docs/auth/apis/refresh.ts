@@ -3,7 +3,7 @@
  * /auth/refresh:
  *   post:
  *     summary: Refresh token
- *     tags: [Access]
+ *     tags: [Authentication]
  *     requestBody:
  *        required: true
  *        content:

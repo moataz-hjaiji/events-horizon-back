@@ -7,7 +7,11 @@ import JWT from '../../core/JWT';
 import UserRepo from '../../database/repository/UserRepo';
 import { AuthFailureError } from '../../core/ApiError';
 import KeystoreRepo from '../../database/repository/KeystoreRepo';
-import { validateTokenData, createTokens, getAccessToken } from '../../auth/authUtils';
+import {
+  validateTokenData,
+  createTokens,
+  getAccessToken,
+} from '../../auth/authUtils';
 import asyncHandler from '../../helpers/asyncHandler';
 import { TokenRefreshResponse } from '../../core/ApiResponse';
 
@@ -15,9 +19,12 @@ export const refreshToken = asyncHandler(async (req: ProtectedRequest, res) => {
   req.accessToken = getAccessToken(req.headers.authorization); // Express headers are auto converted to lowercase
 
   const accessTokenPayload = await JWT.decode(req.accessToken);
+
   validateTokenData(accessTokenPayload);
 
-  const user = await UserRepo.findById(new Types.ObjectId(accessTokenPayload.sub));
+  const user = await UserRepo.findById(
+    new Types.ObjectId(accessTokenPayload.sub)
+  );
   if (!user) throw new AuthFailureError('User not registered');
   req.user = user;
 
@@ -30,7 +37,7 @@ export const refreshToken = asyncHandler(async (req: ProtectedRequest, res) => {
   const keystore = await KeystoreRepo.find(
     req.user._id,
     accessTokenPayload.prm,
-    refreshTokenPayload.prm,
+    refreshTokenPayload.prm
   );
 
   if (!keystore) throw new AuthFailureError('Invalid access token');
@@ -42,5 +49,9 @@ export const refreshToken = asyncHandler(async (req: ProtectedRequest, res) => {
   await KeystoreRepo.create(req.user._id, accessTokenKey, refreshTokenKey);
   const tokens = await createTokens(req.user, accessTokenKey, refreshTokenKey);
 
-  new TokenRefreshResponse('Token Issued', tokens.accessToken, tokens.refreshToken).send(res);
+  new TokenRefreshResponse(
+    'Token Issued',
+    tokens.accessToken,
+    tokens.refreshToken
+  ).send(res);
 });

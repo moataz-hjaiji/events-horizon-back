@@ -1,10 +1,10 @@
 import asyncHandler from '../../helpers/asyncHandler';
-import { DataRequest } from 'app-request';
+import { ProtectedRequest } from 'app-request';
 
 import { SuccessResponse } from '../../core/ApiResponse';
 import UserRepo from '../../database/repository/UserRepo';
 
-const countAllUsers = asyncHandler(async (req: DataRequest, res) => {
+const countAllUsers = asyncHandler(async (req: ProtectedRequest, res) => {
   const count = await UserRepo.countAll();
   return new SuccessResponse('success', {
     users: count,
