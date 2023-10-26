@@ -4,27 +4,20 @@ import { SuccessMsgResponse } from '../../core/ApiResponse';
 import UserRepo from '../../database/repository/UserRepo';
 import { BadRequestError } from '../../core/ApiError';
 import asyncHandler from '../../helpers/asyncHandler';
-import { sendEmail } from '../../helpers/emails';
+import { UserModel } from '../../database/model/User';
 
 export const resetPassword = asyncHandler(
   async (req: ProtectedRequest, res) => {
-    const { resetCode } = req.body;
+    const { resetCode, password } = req.body;
 
-    // let user = await UserRepo.findByObj({ resetCode });
-    // if (!user) throw new BadRequestError('Invalid code');
+    let user = await UserRepo.findByObj({ resetCode });
+    if (!user) throw new BadRequestError('Invalid code');
 
-    // await UserRepo.updateSimple(user._id, { resetCode });
+    user.password = password;
+    user.resetCode = null;
 
-    // sendEmail({
-    //   email: user.email,
-    //   subject: 'forget Password',
-    //   message: '',
-    //   template: 'emailConfirmationCode',
-    //   variables: {
-    //     code: resetCode,
-    //   },
-    // });
+    await user.save();
 
-    // return new SuccessMsgResponse('an email have been sent').send(res);
+    return new SuccessMsgResponse('your password have been modified').send(res);
   }
 );

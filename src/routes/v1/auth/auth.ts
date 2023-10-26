@@ -20,6 +20,12 @@ router.post(
   auth.forgetPassword
 );
 
+router.post(
+  '/reset-password',
+  validator(schema.resetPassword),
+  auth.resetPassword
+);
+
 router.use('/', authentication);
 
 router.post(

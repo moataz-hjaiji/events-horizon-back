@@ -13,8 +13,7 @@
  *              schema:
  *                type: array
  *                items:
- *                  schema:
- *                    $ref: '#/components/schemas/GetUser'
+ *                  $ref: '#/components/schemas/GetUser'
  *        400:
  *          description: 	Validation Failed
  *        401:

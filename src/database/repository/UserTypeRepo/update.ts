@@ -8,9 +8,7 @@ const update = async (
     id,
     { $set: { ...obj } },
     { new: true }
-  )
-    .lean<UserType>()
-    .exec();
+  ).exec();
 };
 
 export default update;

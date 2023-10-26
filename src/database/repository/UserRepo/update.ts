@@ -7,9 +7,7 @@ const update = async (
   accessTokenKey: string,
   refreshTokenKey: string
 ): Promise<{ user: User; keystore: Keystore }> => {
-  await UserModel.updateOne({ _id: user._id }, { $set: { ...user } })
-    .lean()
-    .exec();
+  await UserModel.updateOne({ _id: user._id }, { $set: { ...user } }).exec();
   const keystore = await KeystoreRepo.create(
     user._id,
     accessTokenKey,

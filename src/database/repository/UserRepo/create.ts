@@ -8,7 +8,7 @@ const create = async (
   verified?: boolean
 ): Promise<IUser> => {
   const now = new Date();
-  const role = await RoleModel.findOne({ code: roleCode }).lean<Role>().exec();
+  const role = await RoleModel.findOne({ code: roleCode }).exec();
   if (!role) throw new InternalError('Role must be defined');
   user.roles = [role._id];
   user.verified = verified ? true : false;

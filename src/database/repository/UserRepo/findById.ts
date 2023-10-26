@@ -7,7 +7,6 @@ const findById = (id: Types.ObjectId): Promise<User | null> => {
     .populate({
       path: 'roles',
     })
-    .lean<User>()
     .exec();
 };
 

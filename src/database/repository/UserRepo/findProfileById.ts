@@ -8,7 +8,6 @@ const findProfileById = (id: Types.ObjectId): Promise<User | null> => {
       path: 'roles',
       select: { code: 1 },
     })
-    .lean<User>()
     .exec();
 };
 

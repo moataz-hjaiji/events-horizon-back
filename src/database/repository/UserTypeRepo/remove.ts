@@ -5,9 +5,7 @@ const remove = async (id: string): Promise<UserType | null> => {
     id,
     { $set: { deletedAt: Date.now() } },
     { new: true }
-  )
-    .lean<UserType>()
-    .exec();
+  ).exec();
 };
 
 export default remove;

@@ -7,7 +7,6 @@ const findByEmail = (email: string): Promise<User | null> => {
       path: 'roles',
       select: { code: 1 },
     })
-    .lean<User>()
     .exec();
 };
 
