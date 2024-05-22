@@ -25,16 +25,17 @@ export const seedUser = async (
     } else {
       try {
         let user = {
-          roles: [roleAdmin],
+          role: roleAdmin,
           verified: true,
-          name,
+          firstName: name,
+          lastName: name,
           email,
           password,
           createdAt: new Date(),
           updatedAt: new Date(),
         };
 
-        await UserModel.create(user as User);
+        await UserModel.create(user as any);
 
         console.log(`${roleCode} user created successfully ` + EMOJIS.SUCCESS);
       } catch (error) {

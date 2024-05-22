@@ -5,9 +5,11 @@ import { seeder } from '../../config/envVar';
 import { environment } from '../../config/envVar';
 import { seedDelete } from './drop';
 import '../../database';
+import { seedCountries } from './countries';
+import { seedUserTypes } from './userTypes';
 
 export let seed = async (args = { clearDatabase: false }) => {
-  if (args.clearDatabase) await seedDelete();
+  await seedDelete();
   await seedRoles([RoleCode.ADMIN, RoleCode.USER]);
   await seedUser(
     RoleCode.ADMIN,
@@ -15,12 +17,8 @@ export let seed = async (args = { clearDatabase: false }) => {
     seeder.adminName,
     seeder.adminPass
   );
-  await seedUser(
-    RoleCode.ADMIN,
-    seeder.developerEmail,
-    seeder.developerName,
-    seeder.developerPass
-  );
+  await seedUserTypes();
+  await seedCountries();
   environment !== 'test' && process.exit(1);
 };
 
