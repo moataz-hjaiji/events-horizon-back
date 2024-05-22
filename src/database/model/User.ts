@@ -2,27 +2,38 @@ import { model, Schema, Document } from 'mongoose';
 import Role from './Role';
 import { mongoosePagination, Pagination } from 'mongoose-paginate-ts';
 import bcrypt from 'bcryptjs';
+import Country from './Country';
+import UserType from './UserType';
 import { preFindHook } from '../../helpers/databaseHooks';
 
 export const DOCUMENT_NAME = 'User';
 export const COLLECTION_NAME = 'users';
 
-export default interface IUser extends Document {
-  firstName: string;
-  lastName: string;
-  userName: string;
+export enum Gender {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+}
+export default interface User extends Document {
+  firstName?: string;
+  lastName?: string;
   email: string;
   phoneNumber: string;
   password: string;
+  userType: UserType;
+  country: Country;
   profilePicUrl?: string;
-  verified: boolean;
-  roles?: Role[];
+  birthDay: Date;
+  gender: Gender;
+  role: Role;
+  verified?: boolean;
   token: string | null;
-  resetCode: string | null;
+  resetCode?: string | null;
+  createdAt?: Date;
+  updatedAt?: Date;
   deletedAt?: Date;
 }
 
-const schema = new Schema<IUser>(
+const schema = new Schema(
   {
     firstName: {
       type: Schema.Types.String,
@@ -32,36 +43,38 @@ const schema = new Schema<IUser>(
       type: Schema.Types.String,
       trim: true,
     },
-    userName: {
-      type: Schema.Types.String,
-      trim: true,
-    },
     email: {
       type: Schema.Types.String,
-      unique: true,
       trim: true,
     },
     phoneNumber: {
       type: Schema.Types.String,
       trim: true,
-      nullable: true,
     },
     password: {
       type: Schema.Types.String,
       select: false,
     },
+    gender: {
+      type: Schema.Types.String,
+    },
+    userType: {
+      type: Schema.Types.ObjectId,
+      ref: 'UserType',
+    },
+    country: {
+      type: Schema.Types.ObjectId,
+      ref: 'Country',
+    },
     profilePicUrl: {
       type: Schema.Types.String,
-      trim: true,
     },
-    roles: {
-      type: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: 'Role',
-        },
-      ],
-      select: false,
+    birthDay: {
+      type: Schema.Types.Date,
+    },
+    role: {
+      type: Schema.Types.ObjectId,
+      ref: 'Role',
     },
     verified: {
       type: Schema.Types.Boolean,
@@ -70,10 +83,12 @@ const schema = new Schema<IUser>(
     token: {
       type: Schema.Types.String,
       nullable: true,
+      select: false,
     },
     resetCode: {
       type: Schema.Types.String,
       nullable: true,
+      select: false,
     },
     deletedAt: {
       type: Date,
@@ -86,12 +101,14 @@ const schema = new Schema<IUser>(
     versionKey: false,
   }
 );
-preFindHook(schema);
+preFindHook(schema, ['userType', 'country', 'role']);
 schema.plugin(mongoosePagination);
-schema.pre('save', async function (this: IUser, next) {
+schema.pre('save', async function (this: User, next) {
   if (this.isModified('email')) this.email = this.email?.toLocaleLowerCase();
+
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 12);
+
   next();
 });
 
@@ -101,8 +118,7 @@ schema.methods.comparePassword = async function (
   return await bcrypt.compare(password, this.password);
 };
 
-export const UserModel = model<IUser, Pagination<IUser>>(
-  DOCUMENT_NAME,
-  schema,
-  COLLECTION_NAME
-);
+export const UserModel = model<
+  User,
+  Pagination<User> & AggregatePaginateModel<User>
+>(DOCUMENT_NAME, schema, COLLECTION_NAME);

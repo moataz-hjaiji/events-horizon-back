@@ -4,7 +4,6 @@ export const DOCUMENT_NAME = 'Role';
 export const COLLECTION_NAME = 'roles';
 
 export const enum RoleCode {
-  SUPER_ADMIN = 'SUPER_ADMIN',
   ADMIN = 'ADMIN',
   USER = 'USER',
 }
@@ -18,7 +17,7 @@ const schema = new Schema<IRole>(
     code: {
       type: Schema.Types.String,
       required: true,
-      enum: [RoleCode.ADMIN, RoleCode.USER, RoleCode.SUPER_ADMIN],
+      enum: [RoleCode.ADMIN, RoleCode.USER],
     },
   },
   {

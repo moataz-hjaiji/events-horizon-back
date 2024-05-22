@@ -6,9 +6,8 @@ export const DOCUMENT_NAME = 'UserType';
 export const COLLECTION_NAME = 'userTypes';
 
 export const enum UserTypeCode {
-  PLAYER = 'PLAYER',
-  AGENT = 'AGENT',
-  CLUB = 'CLUB',
+  MEMBER = 'MEMBER',
+  SPONSOR = 'SPONSOR',
 }
 
 export default interface IUserType extends Document {
@@ -22,7 +21,7 @@ const schema = new Schema<IUserType>(
       type: Schema.Types.String,
       trim: true,
       unique: true,
-      enum: [UserTypeCode.PLAYER, UserTypeCode.AGENT, UserTypeCode.CLUB],
+      enum: [UserTypeCode.MEMBER, UserTypeCode.SPONSOR],
     },
     deletedAt: {
       type: Date,

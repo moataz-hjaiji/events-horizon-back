@@ -23,9 +23,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/takiacademy/progress-v2.git"
+    "url": "git+https://gitlab.com/mohamedomarlabidi"
   },
-  "author": "TakiAcademy",
+  "author": "Omar",
   "license": "Apache-2.0",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
@@ -92,7 +92,7 @@
     "typescript": "^4.9.5"
   },
   "bugs": {
-    "url": "https://gitlab.com/takiacademy/progress-v2/issues"
+    "url": "https://gitlab.com/mohamedomarlabidi/issues"
   },
-  "homepage": "https://gitlab.com/takiacademy/progress-v2#readme"
+  "homepage": "https://gitlab.com/mohamedomarlabidi#readme"
 }

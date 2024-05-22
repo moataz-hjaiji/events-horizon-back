@@ -8,7 +8,7 @@ import '../../database';
 
 export let seed = async (args = { clearDatabase: false }) => {
   if (args.clearDatabase) await seedDelete();
-  await seedRoles([RoleCode.ADMIN, RoleCode.USER, RoleCode.SUPER_ADMIN]);
+  await seedRoles([RoleCode.ADMIN, RoleCode.USER]);
   await seedUser(
     RoleCode.ADMIN,
     seeder.adminEmail,
@@ -16,7 +16,7 @@ export let seed = async (args = { clearDatabase: false }) => {
     seeder.adminPass
   );
   await seedUser(
-    RoleCode.SUPER_ADMIN,
+    RoleCode.ADMIN,
     seeder.developerEmail,
     seeder.developerName,
     seeder.developerPass
