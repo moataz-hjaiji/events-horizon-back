@@ -19,7 +19,7 @@ export default interface User extends Document {
   email: string;
   phoneNumber: string;
   password: string;
-  userType: UserType;
+  userType?: UserType;
   country: Country;
   profilePicUrl?: string;
   birthDay: Date;
