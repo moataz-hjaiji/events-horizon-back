@@ -118,7 +118,8 @@ schema.methods.comparePassword = async function (
   return await bcrypt.compare(password, this.password);
 };
 
-export const UserModel = model<
-  User,
-  Pagination<User> & AggregatePaginateModel<User>
->(DOCUMENT_NAME, schema, COLLECTION_NAME);
+export const UserModel = model<User, Pagination<User>>(
+  DOCUMENT_NAME,
+  schema,
+  COLLECTION_NAME
+);
