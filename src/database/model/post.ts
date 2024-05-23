@@ -1,5 +1,7 @@
 import { Schema, model, Document } from 'mongoose';
 import User from './User';
+import { mongoosePagination, Pagination } from 'mongoose-paginate-ts';
+import { preFindHook } from '../../helpers/databaseHooks';
 
 export const DOCUMENT_NAME = 'Post';
 export const COLLECTION_NAME = 'posts';
@@ -47,5 +49,11 @@ const schema = new Schema<IPost>(
     versionKey: false,
   }
 );
+schema.plugin(mongoosePagination);
+preFindHook(schema, ['createdBy']);
 
-export const PostModel = model<IPost>(DOCUMENT_NAME, schema, COLLECTION_NAME);
+export const PostModel = model<IPost, Pagination<IPost>>(
+  DOCUMENT_NAME,
+  schema,
+  COLLECTION_NAME
+);

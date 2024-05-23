@@ -102,20 +102,3 @@ After setting up the project and seeding the database, you can start the project
 npm run dev
 ```
 
-
-### Styling Details:
-
-1. **Headings and Subheadings**: 
-   - Main headings (`# Project Fédéré` and `## Table of Contents`) are styled using `#` and `##`.
-   - Subheadings (`### Prerequisites`, `### Installation`, etc.) are styled using `###`.
-
-2. **Code Blocks**: 
-   - Used for command-line instructions and environment variable examples.
-
-3. **Horizontal Lines**: 
-   - Added horizontal lines (`---`) between sections for visual separation.
-
-4. **Bullet Points**: 
-   - Used for the table of contents to provide a clear structure.
-
-This styling makes the README visually appealing and easy to navigate, ensuring that users can quickly find the information they need.
