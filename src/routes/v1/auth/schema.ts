@@ -35,7 +35,7 @@ export default {
           "Password must be 8-30 characters long and contain only alphanumeric characters.",
         "any.required": "Password is required.",
       }),
-    userType: JoiObjectId().required(),
+    userType: JoiObjectId().optional(),
   }),
   forgetPassword: Joi.object().keys({
     email: Joi.string().required().email(),
