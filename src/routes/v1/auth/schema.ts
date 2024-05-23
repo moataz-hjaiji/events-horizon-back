@@ -1,5 +1,5 @@
-import Joi from '@hapi/joi';
-import { JoiAuthBearer } from '../../../helpers/validator';
+import Joi from "@hapi/joi";
+import { JoiAuthBearer, JoiObjectId } from "../../../helpers/validator";
 
 export default {
   userLogin: Joi.object().keys({
@@ -10,6 +10,10 @@ export default {
 
   refreshToken: Joi.object().keys({
     refreshToken: Joi.string().required().min(1),
+  }),
+  confirmEmail: Joi.object().keys({
+    email: Joi.string().email().required(),
+    code: Joi.string().required().min(1).max(6),
   }),
 
   auth: Joi.object()
@@ -25,7 +29,13 @@ export default {
     phoneNumber: Joi.string().optional().min(8),
     password: Joi.string()
       .required()
-      .regex(/^[a-zA-Z0-9]{8,30}$/),
+      .regex(/^[a-zA-Z0-9]{8,30}$/)
+      .messages({
+        "string.pattern.base":
+          "Password must be 8-30 characters long and contain only alphanumeric characters.",
+        "any.required": "Password is required.",
+      }),
+    userType: JoiObjectId().required(),
   }),
   forgetPassword: Joi.object().keys({
     email: Joi.string().required().email(),

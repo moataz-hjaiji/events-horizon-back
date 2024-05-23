@@ -1,22 +1,11 @@
-import IUser, { UserModel } from '../../model/User';
-import Role, { RoleModel } from '../../model/Role';
-import { InternalError } from '../../../core/ApiError';
+import User, { UserModel } from "../../model/User";
 
-const create = async (
-  user: IUser,
-  roleCode: string,
-  verified?: boolean
-): Promise<IUser> => {
-  const now = new Date();
-  const role = await RoleModel.findOne({ code: roleCode }).exec();
-  if (!role) throw new InternalError('Role must be defined');
-  user.role = role._id;
-  user.verified = verified ? true : false;
-  const createdUser = (await UserModel.create(user)).populate({
-    path: 'role',
-    select: { code: 1 },
-  });
-  return createdUser;
+const create = async (obj: any): Promise<User> => {
+  return (await UserModel.create(obj)).populate([
+    "userType",
+    "country",
+    "role",
+  ]);
 };
 
 export default create;

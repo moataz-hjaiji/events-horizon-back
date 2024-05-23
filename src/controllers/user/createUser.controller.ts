@@ -1,41 +1,32 @@
-import asyncHandler from '../../helpers/asyncHandler';
-import { ProtectedRequest } from 'app-request';
-import { BadRequestError } from '../../core/ApiError';
-import _ from 'lodash';
-
-import UserRepo from '../../database/repository/UserRepo';
-import { SuccessResponse } from '../../core/ApiResponse';
-import IUser from '../../database/model/User';
+import asyncHandler from "../../helpers/asyncHandler";
+import { ProtectedRequest } from "app-request";
+import UserRepo from "../../database/repository/UserRepo";
+import { SuccessResponse } from "../../core/ApiResponse";
+import RoleRepo from "../../database/repository/RoleRepo";
+import { RoleCode } from "../../database/model/Role";
+import { BadRequestError } from "../../core/ApiError";
+import UserTypeRepo from "../../database/repository/UserTypeRepo";
 
 export const createUser = asyncHandler(async (req: ProtectedRequest, res) => {
-  const { firstName, email, password, role, verified, phoneNumber, lastName } =
-    req.body;
-  let user = await UserRepo.findByEmail(email);
-  if (user) throw new BadRequestError('User already registered');
+  const { body } = req;
 
-  const createdUser = await UserRepo.create(
-    {
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      password,
-      verified: false,
-    } as IUser,
-    role,
-    verified
+  let user = await UserRepo.findByObj(
+    body.email ? { email: body.email } : { phoneNumber: body.phoneNumber }
   );
+  if (user) throw new BadRequestError("User already registered");
 
-  new SuccessResponse(
-    'User has been created successfully!',
-    _.pick(createdUser, [
-      '_id',
-      'name',
-      'email',
-      'role',
-      'profilePicUrl',
-      'verified',
-      'lastname',
-    ])
-  ).send(res);
+  const roleUser = await RoleRepo.findByCode(RoleCode.USER);
+  if (!roleUser) throw new BadRequestError("role not found");
+
+  const userType = await UserTypeRepo.getOneById(body.userType);
+  if (!userType) throw new BadRequestError("user type doesn't exist");
+  user = await UserRepo.create({
+    ...body,
+    role: roleUser,
+    verified: true,
+    documentVerified: true,
+  });
+  if (!user)
+    throw new BadRequestError("user with this credentials already exists");
+  new SuccessResponse("User has been created successfully!", user).send(res);
 });

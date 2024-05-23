@@ -1,54 +1,63 @@
-import { RoleRequest } from 'app-request';
-import _ from 'lodash';
-import { v4 as uuidv4 } from 'uuid';
-import { SuccessResponse } from '../../core/ApiResponse';
-import IUser from '../../database/model/User';
-import { RoleCode } from '../../database/model/Role';
-import UserRepo from '../../database/repository/UserRepo';
-import { BadRequestError } from '../../core/ApiError';
-import asyncHandler from '../../helpers/asyncHandler';
-import { sendEmail } from '../../helpers/emails';
+import { RoleRequest } from "app-request";
+import _ from "lodash";
+import crypto from "crypto";
+import { SuccessResponse } from "../../core/ApiResponse";
+import { RoleCode } from "../../database/model/Role";
+import UserRepo from "../../database/repository/UserRepo";
+import { BadRequestError } from "../../core/ApiError";
+import asyncHandler from "../../helpers/asyncHandler";
+import { sendEmail } from "../../helpers/emails";
+import RoleRepo from "../../database/repository/RoleRepo";
+import UserTypeRepo from "../../database/repository/UserTypeRepo";
 
 export const signup = asyncHandler(async (req: RoleRequest, res) => {
-  const { firstName, lastName, phoneNumber, email, password } = req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    phoneNumber,
+    password,
+    userType,
+    country,
+    birthDay,
+    message,
+  } = req.body;
+  if (req.file) req.body.profilePicUrl = req.file.path;
   let user = await UserRepo.findByEmail(email);
-  if (user) throw new BadRequestError('User already registered');
+  if (user) throw new BadRequestError("User already registered");
 
-  const confirmationToken = uuidv4();
-  const confirmationLink = `${process.env.CLIENT_BASE_URL}/email/confirm/${confirmationToken}`;
-  const createdUser = await UserRepo.create(
-    {
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      password,
-      token: confirmationToken,
-      verified: false,
-    } as IUser,
-    RoleCode.USER
-  );
+  const roleUser = await RoleRepo.findByCode(RoleCode.USER);
+  if (!roleUser) throw new BadRequestError("role not found");
 
-  sendEmail({
+  const userTypeCheck = await UserTypeRepo.getOneById(userType);
+  if (!userTypeCheck) throw new BadRequestError("userType not found");
+
+  const resetCode = crypto.randomInt(1111, 9999).toString();
+
+  const createdUser = await UserRepo.create({
+    firstName,
+    lastName,
+    email,
+    phoneNumber,
+    password,
+    userType,
+    verified: false,
+    role: roleUser._id,
+    resetCode,
+    birthDay,
+    country,
+    profilePicUrl: req.body.profilePicUrl,
+  });
+
+  await sendEmail({
     email: createdUser.email,
-    subject: 'confirme ton email',
-    message: '',
-    template: 'emailConfirmationLink',
+    subject: "تحقق من الحساب", // Arabic translation for 'verify account'
+    message: message ? message : "",
+    template: "emailConfirmationCode",
     variables: {
-      name: createdUser.firstName,
-      confirmationLink,
+      code: resetCode,
     },
   });
 
-  new SuccessResponse('La confirmation par e-mail a été envoyée', {
-    user: _.pick(createdUser, [
-      '_id',
-      'name',
-      'email',
-      'role',
-      'profilePicUrl',
-      'brandPicUrl',
-      'verified',
-    ]),
-  }).send(res);
+  new SuccessResponse("Account created successfully", createdUser).send(res);
 });
