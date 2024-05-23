@@ -8,14 +8,10 @@ export default {
   }),
   create: Joi.object().keys({
     name: Joi.string()
-      .valid(UserTypeCode.PLAYER, UserTypeCode.AGENT, UserTypeCode.CLUB)
+      .valid(UserTypeCode.MEMBER, UserTypeCode.SPONSOR)
       .required(),
   }),
   update: Joi.object().keys({
-    name: Joi.string().valid(
-      UserTypeCode.PLAYER,
-      UserTypeCode.AGENT,
-      UserTypeCode.CLUB
-    ),
+    name: Joi.string().valid(UserTypeCode.MEMBER, UserTypeCode.SPONSOR),
   }),
 };

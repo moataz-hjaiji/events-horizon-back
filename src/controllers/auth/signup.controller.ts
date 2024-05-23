@@ -45,7 +45,7 @@ export const signup = asyncHandler(async (req: RoleRequest, res) => {
       '_id',
       'name',
       'email',
-      'roles',
+      'role',
       'profilePicUrl',
       'brandPicUrl',
       'verified',

@@ -10,10 +10,10 @@ const create = async (
   const now = new Date();
   const role = await RoleModel.findOne({ code: roleCode }).exec();
   if (!role) throw new InternalError('Role must be defined');
-  user.roles = [role._id];
+  user.role = role._id;
   user.verified = verified ? true : false;
   const createdUser = (await UserModel.create(user)).populate({
-    path: 'roles',
+    path: 'role',
     select: { code: 1 },
   });
   return createdUser;

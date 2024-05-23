@@ -2,9 +2,9 @@ import User, { UserModel } from '../../model/User';
 
 const findByObj = async (obj: object): Promise<User | null> => {
   return await UserModel.findOne(obj)
-    .select('+roles +email')
+    .select('+role +email')
     .populate({
-      path: 'roles',
+      path: 'role',
       select: { code: 1 },
     })
     .exec();

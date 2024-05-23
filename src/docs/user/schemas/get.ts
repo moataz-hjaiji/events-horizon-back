@@ -14,7 +14,7 @@
  *         name:
  *           type: string
  *           description: The name of the user.
- *         roles:
+ *         role:
  *           type: string
  *           description: The role of the user.
  *         profilePicUrl:

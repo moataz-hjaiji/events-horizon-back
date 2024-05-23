@@ -32,10 +32,8 @@
  *         updatedAt:
  *           type: string
  *           description: user update date
- *         roles:
- *           type: array
- *           items:
- *             type: string
- *             description: role code (USER, ADMIN)
+ *         role:
+ *           type: string
+ *           description: role code (USER, ADMIN)
  *
  */

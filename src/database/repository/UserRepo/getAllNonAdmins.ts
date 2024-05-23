@@ -20,11 +20,11 @@ const getAllNonAdmins = async (
   let findAllQuery = apiOptions.deleted
     ? UserModel.find({
         deletedAt: { $ne: null },
-        roles: [userRoleId],
+        role: [userRoleId],
       })
     : UserModel.find({
         deletedAt: null,
-        roles: [userRoleId],
+        role: [userRoleId],
       });
 
   const features = new APIFeatures(findAllQuery, query)

@@ -3,7 +3,7 @@ import { ProtectedRequest } from 'app-request';
 import CountryRepo from '../../database/repository/CountryRepo';
 import { SuccessResponsePaginate } from '../../core/ApiResponse';
 
-export const getAllCountrys = asyncHandler(
+export const getAllCountries = asyncHandler(
   async (req: ProtectedRequest, res) => {
     const { page, perPage, deleted } = req.query;
     const options = {

@@ -43,7 +43,7 @@ export const confirmEmail = asyncHandler(async (req: ProtectedRequest, res) => {
       'name',
       'brandPicUrl',
       'email',
-      'roles',
+      'role',
       'profilePicUrl',
       'verified',
     ]),

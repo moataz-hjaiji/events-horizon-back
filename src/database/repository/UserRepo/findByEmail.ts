@@ -2,9 +2,9 @@ import User, { UserModel } from '../../model/User';
 
 const findByEmail = (email: string): Promise<User | null> => {
   return UserModel.findOne({ email: email })
-    .select('+email +password +roles +verified -status')
+    .select('+email +password +role +verified -status')
     .populate({
-      path: 'roles',
+      path: 'role',
       select: { code: 1 },
     })
     .exec();

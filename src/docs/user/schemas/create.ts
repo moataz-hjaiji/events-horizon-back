@@ -18,7 +18,7 @@
  *         name:
  *           type: string
  *           description: The name of the user.
- *         roles:
+ *         role:
  *           type: array
  *           description: The role of the user.
  *           items:

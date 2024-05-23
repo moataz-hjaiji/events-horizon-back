@@ -8,7 +8,7 @@ import { SuccessResponse } from '../../core/ApiResponse';
 import IUser from '../../database/model/User';
 
 export const createUser = asyncHandler(async (req: ProtectedRequest, res) => {
-  const { firstName, email, password, roles, verified, phoneNumber, lastName } =
+  const { firstName, email, password, role, verified, phoneNumber, lastName } =
     req.body;
   let user = await UserRepo.findByEmail(email);
   if (user) throw new BadRequestError('User already registered');
@@ -22,7 +22,7 @@ export const createUser = asyncHandler(async (req: ProtectedRequest, res) => {
       password,
       verified: false,
     } as IUser,
-    roles,
+    role,
     verified
   );
 
@@ -32,7 +32,7 @@ export const createUser = asyncHandler(async (req: ProtectedRequest, res) => {
       '_id',
       'name',
       'email',
-      'roles',
+      'role',
       'profilePicUrl',
       'verified',
       'lastname',

@@ -26,7 +26,7 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
     _.pick(user, [
       '_id',
       'email',
-      'roles',
+      'role',
       'profilePicUrl',
       'verified',
       'createdAt',

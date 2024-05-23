@@ -20,7 +20,7 @@ export const updateUser = asyncHandler(async (req: ProtectedRequest, res) => {
     throw new BadRequestError('You cannot update yourself');
 
   // if (req.body.name) user.name = req.body.name;
-  if (req.body.roles) user.roles = req.body.roles;
+  if (req.body.role) user.role = req.body.role;
   if (req.body.email) user.email = req.body.email;
   if (req.body.phoneNumber) user.phoneNumber = req.body.phoneNumber;
   // if (req.body.lastname) user.lastname = req.body.lastname;
@@ -35,7 +35,7 @@ export const updateUser = asyncHandler(async (req: ProtectedRequest, res) => {
   if (profilePicUrl) user.profilePicUrl = profilePicUrl;
   // if (brandPicUrl) user.brandPicUrl = brandPicUrl;
 
-  const { roles, ...userToUpdate } = user;
+  const { role, ...userToUpdate } = user;
 
   await UserRepo.updateInfo(userToUpdate as User);
   return new SuccessResponse('Profile updated', user).send(res);

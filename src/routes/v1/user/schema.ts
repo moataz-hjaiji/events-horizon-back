@@ -19,7 +19,7 @@ export default {
       .required()
       .regex(/^[a-zA-Z0-9]{8,30}$/),
     profilePicUrl: Joi.string().optional().uri(),
-    roles: Joi.array().items(Joi.string()).required(),
+    role: Joi.string().required(),
     verified: Joi.boolean().required(),
   }),
   update: Joi.object().keys({
@@ -29,7 +29,7 @@ export default {
     phoneNumber: Joi.string().optional().min(1).max(200),
     password: Joi.string().regex(/^[a-zA-Z0-9]{8,30}$/),
     profilePicUrl: Joi.string().optional().uri(),
-    roles: Joi.array().items(Joi.string()),
+    role: Joi.string(),
     verified: Joi.boolean(),
   }),
 };

@@ -3,9 +3,9 @@ import { Types } from 'mongoose';
 
 const findProfileById = (id: Types.ObjectId): Promise<User | null> => {
   return UserModel.findOne({ _id: id })
-    .select('+name +lastname +roles +email')
+    .select('+name +lastname +role +email')
     .populate({
-      path: 'roles',
+      path: 'role',
       select: { code: 1 },
     })
     .exec();

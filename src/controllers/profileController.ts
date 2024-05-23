@@ -11,7 +11,7 @@ export const getMyProfile = asyncHandler(async (req: ProtectedRequest, res) => {
   if (!user) throw new BadRequestError('User not registered');
   return new SuccessResponse(
     'success',
-    _.pick(user, ['name', 'profilePicUrl', 'roles', 'createdAt', 'verified'])
+    _.pick(user, ['name', 'profilePicUrl', 'role', 'createdAt', 'verified'])
   ).send(res);
 });
 
@@ -26,7 +26,7 @@ export const updateProfile = asyncHandler(
     await UserRepo.updateInfo(user);
     return new SuccessResponse(
       'Profile updated',
-      _.pick(user, ['name', 'profilePicUrl', 'roles', 'createdAt', 'verified'])
+      _.pick(user, ['name', 'profilePicUrl', 'role', 'createdAt', 'verified'])
     ).send(res);
   }
 );
