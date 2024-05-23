@@ -97,3 +97,11 @@ To seed the database with initial data, run the seeder script:
 
 ```bash
 npm run seed
+
+
+## Running the Project
+
+After setting up the project and seeding the database, you can start the project by running:
+
+```bash
+npm run dev
