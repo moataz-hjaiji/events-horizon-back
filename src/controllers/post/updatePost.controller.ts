@@ -6,14 +6,16 @@ import PostRepo from '../../database/repository/PostRepo';
 import asyncHandler from '../../helpers/asyncHandler';
 
 export const UpdatePost = asyncHandler(async (req: ProtectedRequest, res) => {
-  const postId = new Types.ObjectId(req.params.postId);
-  const post = await PostRepo.findOne({ _id: postId });
+  const { params, body, file } = req;
+  const post = await PostRepo.findOne({ _id: params.postId });
   if (!post) new NotFoundError('Post not found ');
+  if (file) body.postPicUrl = file.path;
+
   const report = await PostRepo.updateOne(
     {
-      _id: postId,
+      _id: params.postId,
     },
-    req.body
+    body
   );
 
   new SuccessResponse('Post updated successfully', report).send(res);

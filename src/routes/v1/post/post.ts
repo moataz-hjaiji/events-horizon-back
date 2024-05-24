@@ -6,15 +6,19 @@ import validator from '../../../helpers/validator';
 import { ValidationSource } from '../../../helpers/validator';
 import schema from './schema';
 import post from '../../../controllers/post';
+import FileUploadHandler from '../../../helpers/fileUpload';
+import uploadMediaFilesToThisFolder from '../../../helpers/fileUpload/uploadDestiny';
 const router = express.Router({
   mergeParams: true,
 });
+const fileUploadHandler = new FileUploadHandler();
 
 router.use('/', authentication, authorization([RoleCode.ADMIN, RoleCode.USER]));
 
 router.post(
   '/',
-  validator(schema.postId, ValidationSource.PARAM),
+  uploadMediaFilesToThisFolder('posts'),
+  fileUploadHandler.handleSingleFileUpload('postPicUrl'),
   validator(schema.create, ValidationSource.BODY),
   post.createPost
 );
@@ -29,6 +33,15 @@ router.get(
 
 router.patch(
   '/:postId',
+  uploadMediaFilesToThisFolder('posts'),
+  fileUploadHandler.handleSingleFileUpload('postPicUrl'),
+  validator(schema.postId, ValidationSource.PARAM),
+  validator(schema.update, ValidationSource.BODY),
+  post.UpdatePost
+);
+
+router.patch(
+  '/:postId/status',
   validator(schema.postId, ValidationSource.PARAM),
   validator(schema.update, ValidationSource.BODY),
   post.UpdatePost
