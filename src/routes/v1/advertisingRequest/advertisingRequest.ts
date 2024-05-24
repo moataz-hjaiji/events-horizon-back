@@ -5,38 +5,37 @@ import { RoleCode } from "../../../database/model/Role";
 import validator from "../../../helpers/validator";
 import { ValidationSource } from "../../../helpers/validator";
 import schema from "./schema";
-import post from "../../../controllers/post";
-const router = express.Router({
-  mergeParams: true,
-});
+import advertisingRequest from "../../../controllers/advertisingRequest";
+
+const router = express.Router();
 
 router.use("/", authentication, authorization([RoleCode.ADMIN, RoleCode.USER]));
 
 router.post(
   "/",
   validator(schema.create, ValidationSource.BODY),
-  post.createPost
+  advertisingRequest.createAdvertiseRequest
 );
 
-router.get("/", post.getAll);
+router.get("/", advertisingRequest.getAllAdvertiseRequests);
 
 router.get(
   "/:postId",
-  validator(schema.postId, ValidationSource.PARAM),
-  post.getPost
+  validator(schema.requestId, ValidationSource.PARAM),
+  advertisingRequest.getAdvertiseRequest
 );
 
 router.patch(
   "/:postId",
-  validator(schema.postId, ValidationSource.PARAM),
+  validator(schema.requestId, ValidationSource.PARAM),
   validator(schema.update, ValidationSource.BODY),
-  post.UpdatePost
+  advertisingRequest.updateAdvertiseRequest
 );
 
 router.delete(
   "/:postId",
-  validator(schema.postId, ValidationSource.PARAM),
-  post.deletePost
+  validator(schema.requestId, ValidationSource.PARAM),
+  advertisingRequest.deleteAdvertiseRequest
 );
 
 export default router;

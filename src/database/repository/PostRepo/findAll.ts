@@ -1,7 +1,7 @@
-import IPost, { PostModel } from '../../model/post';
-import { PaginationModel } from 'mongoose-paginate-ts';
-import APIFeatures from '../../../helpers/apiFeatures';
-import { ApiOptions } from 'app-request';
+import IPost, { PostModel } from "../../model/Post";
+import { PaginationModel } from "mongoose-paginate-ts";
+import APIFeatures from "../../../helpers/apiFeatures";
+import { ApiOptions } from "app-request";
 
 type pagingObj = {
   limit: number;
@@ -19,7 +19,7 @@ const findAll = async (
   const features = new APIFeatures(findAllQuery, query)
     .filter()
     .sort()
-    .search(['_id']);
+    .search(["_id"]);
 
   const options = {
     query: features.query,

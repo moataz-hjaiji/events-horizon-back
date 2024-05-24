@@ -1,6 +1,6 @@
-import Joi from '@hapi/joi';
-import { JoiObjectId } from '../../../helpers/validator';
-import { PostType } from '../../../database/model/post';
+import Joi from "@hapi/joi";
+import { JoiObjectId } from "../../../helpers/validator";
+import { PostType } from "../../../database/model/Post";
 
 export default {
   postId: Joi.object().keys({
