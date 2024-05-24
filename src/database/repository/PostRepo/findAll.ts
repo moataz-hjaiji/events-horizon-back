@@ -1,4 +1,4 @@
-import IPost, { PostModel } from "../../model/Post";
+import IPost, { PostModel } from "../../model/post";
 import { PaginationModel } from "mongoose-paginate-ts";
 import APIFeatures from "../../../helpers/apiFeatures";
 import { ApiOptions } from "app-request";

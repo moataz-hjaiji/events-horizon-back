@@ -4,7 +4,6 @@ import { JoiAuthBearer, JoiObjectId } from "../../../helpers/validator";
 export default {
   userLogin: Joi.object().keys({
     email: Joi.string().email(),
-    userName: Joi.string().email(),
     password: Joi.string().required().min(6),
   }),
 

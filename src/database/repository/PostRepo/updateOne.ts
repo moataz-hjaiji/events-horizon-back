@@ -1,4 +1,4 @@
-import IPost, { PostModel } from "../../model/Post";
+import IPost, { PostModel } from "../../model/post";
 const updateOne = async (
   postId: object,
   report: object

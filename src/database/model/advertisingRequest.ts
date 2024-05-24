@@ -2,7 +2,7 @@ import { Schema, model, Document, Types } from "mongoose";
 import User from "./User";
 import { mongoosePagination, Pagination } from "mongoose-paginate-ts";
 import { preFindHook } from "../../helpers/databaseHooks";
-import IPost from "./Post";
+import IPost from "./post";
 
 export const DOCUMENT_NAME = "AdvertisingRequest";
 export const COLLECTION_NAME = "advertisingRequests";

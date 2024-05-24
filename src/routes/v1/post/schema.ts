@@ -1,6 +1,6 @@
-import Joi from "@hapi/joi";
-import { JoiObjectId } from "../../../helpers/validator";
-import { PostType } from "../../../database/model/Post";
+import Joi from '@hapi/joi';
+import { JoiObjectId } from '../../../helpers/validator';
+import { PostStatus, PostType } from '../../../database/model/post';
 
 export default {
   postId: Joi.object().keys({
@@ -16,5 +16,10 @@ export default {
   update: Joi.object().keys({
     title: Joi.string().min(1).max(100).optional(),
     content: Joi.string().min(1).max(300).optional(),
+  }),
+  updateStatus: Joi.object().keys({
+    status: Joi.string()
+      .valid(...Object.values(PostStatus))
+      .required(),
   }),
 };

@@ -9,13 +9,21 @@ export const COLLECTION_NAME = 'posts';
 export enum PostType {
   NEWS = 'NEWS',
   EVENT = 'EVENT',
+  ARTICLE = 'ARTICLE',
+}
+export enum PostStatus {
+  ACCEPTED = 'ACCEPTED',
+  PENDING = 'PENDING',
+  REJECTED = 'REJECTED',
 }
 
 export default interface IPost extends Document {
   createdBy: User;
   title: string;
   content: string;
+  postPicUrl: string;
   postType: PostType;
+  status: PostStatus;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
@@ -33,10 +41,18 @@ const schema = new Schema<IPost>(
     content: {
       type: Schema.Types.String,
     },
+    postPicUrl: {
+      type: Schema.Types.String,
+    },
     postType: {
       type: Schema.Types.String,
       trim: true,
-      enum: [PostType.EVENT, PostType.NEWS],
+      enum: PostType,
+    },
+    status: {
+      type: Schema.Types.String,
+      trim: true,
+      enum: PostStatus,
     },
     deletedAt: {
       type: Date,

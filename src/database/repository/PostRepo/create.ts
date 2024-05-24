@@ -1,4 +1,4 @@
-import IPost, { PostModel } from "../../model/Post";
+import IPost, { PostModel } from "../../model/post";
 
 const create = async (report: object): Promise<IPost> => {
   return await (
