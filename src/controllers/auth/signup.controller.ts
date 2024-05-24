@@ -9,6 +9,7 @@ import asyncHandler from "../../helpers/asyncHandler";
 import { sendEmail } from "../../helpers/emails";
 import RoleRepo from "../../database/repository/RoleRepo";
 import UserTypeRepo from "../../database/repository/UserTypeRepo";
+import { UserTypeCode } from "../../database/model/UserType";
 
 export const signup = asyncHandler(async (req: RoleRequest, res) => {
   const {
@@ -29,7 +30,9 @@ export const signup = asyncHandler(async (req: RoleRequest, res) => {
   const roleUser = await RoleRepo.findByCode(RoleCode.USER);
   if (!roleUser) throw new BadRequestError("role not found");
 
-  const userTypeCheck = await UserTypeRepo.getOneById(userType);
+  const userTypeCheck = await UserTypeRepo.getOneByObj({
+    name: UserTypeCode.MEMBER,
+  });
   if (!userTypeCheck) throw new BadRequestError("userType not found");
 
   const resetCode = crypto.randomInt(1111, 9999).toString();
@@ -40,7 +43,7 @@ export const signup = asyncHandler(async (req: RoleRequest, res) => {
     email,
     phoneNumber,
     password,
-    userType,
+    userType: userTypeCheck,
     verified: false,
     role: roleUser._id,
     resetCode,

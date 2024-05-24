@@ -13,7 +13,7 @@ const router = express.Router({
 });
 const fileUploadHandler = new FileUploadHandler();
 
-router.use('/', authentication, authorization([RoleCode.ADMIN, RoleCode.USER]));
+router.use("/", authentication, authorization([RoleCode.ADMIN, RoleCode.USER]));
 
 router.post(
   '/',
@@ -23,10 +23,10 @@ router.post(
   post.createPost
 );
 
-router.get('/', post.getAll);
+router.get("/", post.getAll);
 
 router.get(
-  '/:postId',
+  "/:postId",
   validator(schema.postId, ValidationSource.PARAM),
   post.getPost
 );
@@ -48,7 +48,7 @@ router.patch(
 );
 
 router.delete(
-  '/:postId',
+  "/:postId",
   validator(schema.postId, ValidationSource.PARAM),
   post.deletePost
 );
