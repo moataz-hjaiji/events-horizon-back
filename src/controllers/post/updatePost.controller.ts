@@ -2,7 +2,7 @@ import { ProtectedRequest } from 'app-request';
 import { Types } from 'mongoose';
 import { NotFoundError } from '../../core/ApiError';
 import { SuccessResponse } from '../../core/ApiResponse';
-import PostRepo from '../../database/repository/PostRepo';
+import PostRepo from '../../database/repository/postRepo';
 import asyncHandler from '../../helpers/asyncHandler';
 
 export const UpdatePost = asyncHandler(async (req: ProtectedRequest, res) => {

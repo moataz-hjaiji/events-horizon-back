@@ -1,5 +1,5 @@
 import { ProtectedRequest } from 'app-request';
-import PostRepo from '../../database/repository/PostRepo';
+import PostRepo from '../../database/repository/postRepo';
 import asyncHandler from '../../helpers/asyncHandler';
 import { SuccessResponse } from '../../core/ApiResponse';
 import { PostStatus } from '../../database/model/post';
