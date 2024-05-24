@@ -5,8 +5,8 @@ import _ from "lodash";
 
 import AdminRepo from "../../database/repository/AdminRepo";
 import { SuccessResponse } from "../../core/ApiResponse";
-import Admin, { AdminModel } from "../../database/model/Admin";
 import { RoleCode } from "../../database/model/Role";
+import Admin from "../../database/model/Admin";
 
 export const createAdmin = asyncHandler(async (req: ProtectedRequest, res) => {
   const { name, email, password, verified, phoneNumber, lastname } = req.body;
