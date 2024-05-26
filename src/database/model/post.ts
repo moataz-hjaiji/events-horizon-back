@@ -24,6 +24,7 @@ export default interface IPost extends Document {
   postPicUrl: string;
   postType: PostType;
   status: PostStatus;
+  date: Date;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
@@ -48,6 +49,10 @@ const schema = new Schema<IPost>(
       type: Schema.Types.String,
       trim: true,
       enum: PostType,
+    },
+    date:{
+      type: Schema.Types.Date,
+      required:true
     },
     status: {
       type: Schema.Types.String,

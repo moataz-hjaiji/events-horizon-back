@@ -20,20 +20,20 @@ router.post(
 router.get("/", advertisingRequest.getAllAdvertiseRequests);
 
 router.get(
-  "/:postId",
+  "/:id",
   validator(schema.requestId, ValidationSource.PARAM),
   advertisingRequest.getAdvertiseRequest
 );
 
 router.patch(
-  "/:postId",
+  "/:id",
   validator(schema.requestId, ValidationSource.PARAM),
   validator(schema.update, ValidationSource.BODY),
   advertisingRequest.updateAdvertiseRequest
 );
 
 router.delete(
-  "/:postId",
+  "/:id",
   validator(schema.requestId, ValidationSource.PARAM),
   advertisingRequest.deleteAdvertiseRequest
 );

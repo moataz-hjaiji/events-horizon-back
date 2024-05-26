@@ -1,25 +1,22 @@
-import asyncHandler from "../../helpers/asyncHandler";
-import { ProtectedRequest } from "app-request";
-import _ from "lodash";
+import asyncHandler from '../../helpers/asyncHandler';
+import { ProtectedRequest } from 'app-request';
+import _ from 'lodash';
 
-import UserRepo from "../../database/repository/UserRepo";
-import { SuccessResponsePaginate } from "../../core/ApiResponse";
+import UserRepo from '../../database/repository/UserRepo';
+import { SuccessResponsePaginate } from '../../core/ApiResponse';
 
 export const getAllUsers = asyncHandler(async (req: ProtectedRequest, res) => {
-  const { page, perPage, deleted } = req.query;
+  const { page, limit, deleted } = req.query;
+  console.log({ limit });
   const options = {
-    page: parseInt(page as string, 10) || 1,
-    limit: parseInt(perPage as string, 12) || 12,
+    page,
+    limit,
   };
-
-  const users = await UserRepo.findAll(options, req.query, {
-    isPaging: true,
-    deleted: deleted == "true" ? true : false,
-  });
+  const users = await UserRepo.findAll(options, req.query, {});
 
   const { docs, ...meta } = users;
   new SuccessResponsePaginate(
-    "All users returned successfuly",
+    'All users returned successfuly',
     docs,
     meta
   ).send(res);

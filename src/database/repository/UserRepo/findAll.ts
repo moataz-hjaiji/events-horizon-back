@@ -9,9 +9,9 @@ type pagingObj = {
 };
 
 const findAll = async (
-  paging: pagingObj,
+  paging: any,
   query: object,
-  apiOptions: ApiOptions,
+  apiOptions: ApiOptions
 ): Promise<PaginationModel<User>> => {
   let findAllQuery = apiOptions.deleted
     ? UserModel.find({ deletedAt: { $ne: null } })
@@ -28,7 +28,7 @@ const findAll = async (
     limit: paging.limit ? paging.limit : null,
     page: paging.page ? paging.page : null,
   };
-
+  console.log({ options });
   return (await UserModel.paginate(options)) as PaginationModel<User>;
 };
 

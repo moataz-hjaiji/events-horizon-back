@@ -18,6 +18,13 @@ router.use('/', authentication, authorization([RoleCode.ADMIN]));
 router.get('/all', userController.getAllUsers);
 router.get('/all/non-admins', userController.getAllNonAdmins);
 router.get('/all/count', userController.countAllUsers);
+router.post(
+  '/create',
+  uploadMediaFilesToThisFolder('users'),
+  fileUploadHandler.handleMultipleFileUpload(['profilePicUrl', 'brandPicUrl']),
+  validator(schema.create),
+  userController.createUser
+);
 router.get(
   '/:id',
   validator(schema.userId, ValidationSource.PARAM),
@@ -31,13 +38,7 @@ router.put(
   validator(schema.update),
   userController.updateUser
 );
-router.post(
-  '/create',
-  uploadMediaFilesToThisFolder('users'),
-  fileUploadHandler.handleMultipleFileUpload(['profilePicUrl', 'brandPicUrl']),
-  validator(schema.create),
-  userController.createUser
-);
+
 
 router.delete(
   '/:id',
