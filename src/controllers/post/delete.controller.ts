@@ -3,7 +3,7 @@ import { Types } from 'mongoose';
 import { ProtectedRequest } from 'app-request';
 import asyncHandler from '../../helpers/asyncHandler';
 import { NotFoundError } from '../../core/ApiError';
-import PostRepo from '../../database/repository/postRepo';
+import PostRepo from '../../database/repository/PostRepo';
 
 export const deletePost = asyncHandler(async (req: ProtectedRequest, res) => {
   const postId = new Types.ObjectId(req.params.postId);

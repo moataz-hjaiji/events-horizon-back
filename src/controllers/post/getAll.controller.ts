@@ -1,6 +1,6 @@
 import asyncHandler from '../../helpers/asyncHandler';
 import { ProtectedRequest } from 'app-request';
-import PostRepo from '../../database/repository/postRepo';
+import PostRepo from '../../database/repository/PostRepo';
 import { SuccessResponsePaginate } from '../../core/ApiResponse';
 
 export const getAll = asyncHandler(async (req: ProtectedRequest, res) => {
