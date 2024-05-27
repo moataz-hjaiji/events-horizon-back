@@ -10,6 +10,7 @@ export default {
     title: Joi.string().min(1).max(100).required(),
     content: Joi.string().min(1).max(300).required(),
     date: Joi.date().required(),
+    postPicUrl: Joi.any(),
     postType: Joi.string()
       .valid(...Object.values(PostType))
       .required(),
