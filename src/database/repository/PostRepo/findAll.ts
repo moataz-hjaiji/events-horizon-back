@@ -19,7 +19,7 @@ const findAll = async (
   const features = new APIFeatures(findAllQuery, query)
     .filter()
     .sort()
-    .search(["_id"]);
+    .search(["title","content"]);
 
   const options = {
     query: features.query,

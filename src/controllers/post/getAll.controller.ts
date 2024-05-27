@@ -4,11 +4,11 @@ import PostRepo from '../../database/repository/PostRepo';
 import { SuccessResponsePaginate } from '../../core/ApiResponse';
 
 export const getAll = asyncHandler(async (req: ProtectedRequest, res) => {
-  const { page, perPage, deleted } = req.query;
+  const { page, limit, deleted } = req.query;
   const options = {
-    page: parseInt(page as string, 10) || 1,
-    limit: parseInt(perPage as string, 10) || 10,
-  };
+    page: Number(page) || 1,
+    limit: Number(limit)  || 10,
+  }; 
 
   const posts = await PostRepo.findAll(options, req.query, {
     isPaging: true,
