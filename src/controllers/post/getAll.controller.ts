@@ -12,7 +12,7 @@ export const getAll = asyncHandler(async (req: ProtectedRequest, res) => {
 
   const posts = await PostRepo.findAll(options, req.query, {
     isPaging: true,
-    deleted: deleted == 'true' ? true : false,
+    deleted: deleted == 'true',
   });
   const { docs, ...meta } = posts;
   new SuccessResponsePaginate(

@@ -9,9 +9,6 @@ import advertisingRequestRepository from "../../database/repository/AdvertisingR
 
 export const createAdvertiseRequest = asyncHandler(
   async (req: ProtectedRequest, res) => {
-    const { id } = req.params;
-    const advReq = await advertisingRequestRepository.findById(id);
-    if (!advReq) throw new BadRequestError("advertise request not found");
     const created = await advertisingRequestRepository.create(req.body);
     return new SuccessResponse("success", created).send(res);
   }
@@ -46,21 +43,21 @@ export const getAdvertiseRequest = asyncHandler(
 
 export const getAllAdvertiseRequests = asyncHandler(
   async (req: ProtectedRequest, res) => {
-    const { page, perPage, deleted } = req.query;
+    const { page, limit, deleted } = req.query;
     const options = {
-      page: parseInt(page as string, 10) || 1,
-      limit: parseInt(perPage as string, 12) || 12,
+      page: Number(page) || 1,
+      limit: Number(limit) || 12,
     };
-
+    console.log({ options });
     const users = await advertisingRequestRepository.findAll(
       options,
       req.query,
       {
         isPaging: true,
-        deleted: deleted == "true" ? true : false,
+        deleted: Boolean(deleted),
       }
     );
-
+    console.log({ users });
     const { docs, ...meta } = users;
     new SuccessResponsePaginate(
       "All advertiseRequests returned successfuly",
