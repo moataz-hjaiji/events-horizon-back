@@ -9,7 +9,7 @@ import UserTypeRepo from "../../database/repository/UserTypeRepo";
 
 export const createUser = asyncHandler(async (req: ProtectedRequest, res) => {
   const { body } = req;
-
+console.log(body)
   let user = await UserRepo.findByObj(
     body.email ? { email: body.email } : { phoneNumber: body.phoneNumber }
   );
@@ -18,8 +18,8 @@ export const createUser = asyncHandler(async (req: ProtectedRequest, res) => {
   const roleUser = await RoleRepo.findByCode(RoleCode.USER);
   if (!roleUser) throw new BadRequestError("role not found");
 
-  const userType = await UserTypeRepo.getOneById(body.userType);
-  if (!userType) throw new BadRequestError("user type doesn't exist");
+  // const userType = await UserTypeRepo.getOneById(body.userType);
+  // if (!userType) throw new BadRequestError("user type doesn't exist");
   user = await UserRepo.create({
     ...body,
     role: roleUser,
